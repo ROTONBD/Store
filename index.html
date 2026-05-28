@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>JavaGoat - Premium Courses</title>
+    <title>Legent Store - Premium Courses</title>
     <link rel="icon" href="data:,">
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -125,26 +125,34 @@
             <div class="box" id="cart-container"></div>
         </div>
 
-        <!-- ================= VIEW: PAYMENT ================= -->
+        <!-- ================= VIEW: PAYMENT (MOBILE BANKING) ================= -->
         <div id="view-payment" class="view-section">
             <h3 class="section-title">Checkout</h3>
             <div class="admin-grid">
                 <div class="box" style="text-align:center;">
-                    <h4>Pay with JavaGoat Wallet</h4>
-                    <p style="font-size:12px; color:var(--text-light); margin:5px 0 15px;">Scan this dynamic QR code using your JavaGoat Points Wallet to auto-fill the payment details.</p>
-                    <img id="payment-qr" src="https://placehold.co/200x200?text=Loading+QR" style="width:200px; height:200px; border-radius:12px; margin:5px 0; object-fit:cover;">
-                    <div style="font-size:24px; font-weight:800; color:var(--primary); margin-top:10px;"><span id="payment-total">0</span> Pts</div>
+                    <h4>Send Money via Mobile Banking</h4>
+                    <p style="font-size:12px; color:var(--text-light); margin:5px 0 15px;">Complete your payment by sending the exact amount to the following number using Nagad, Bikash, or Rocket. Then enter the Transaction ID below.</p>
+                    <div style="background:#F9FAFB; border-radius:12px; padding:20px; margin:15px 0;">
+                        <div style="display:flex; justify-content:center; gap:15px; margin-bottom:10px;">
+                            <i class="fa-solid fa-wallet" style="font-size:24px; color:#F97316;"></i> 
+                            <i class="fa-solid fa-mobile-screen" style="font-size:24px; color:#0EA5E9;"></i>
+                            <i class="fa-solid fa-rocket" style="font-size:24px; color:#7C3AED;"></i>
+                        </div>
+                        <div style="font-size:28px; font-weight:800; color:var(--text-dark);">01945236536</div>
+                        <div style="font-size:14px; color:var(--text-light);">Nagad / Bikash / Rocket (Personal)</div>
+                    </div>
+                    <div style="font-size:24px; font-weight:800; color:var(--primary); margin-top:10px;">Total: <span id="payment-total">0</span> ৳</div>
                 </div>
                 <div class="box">
                     <form id="payment-form">
                         <h4>Verify Payment</h4>
-                        <p style="font-size:13px; color:var(--text-light); margin-bottom:15px;">After sending points via JavaGoat Wallet, enter your transaction reference number below.</p>
+                        <p style="font-size:13px; color:var(--text-light); margin-bottom:15px;">After sending money, enter your mobile wallet Transaction ID (TrxID) below to verify your purchase.</p>
                         <div class="form-group">
-                            <label>Email Address</label>
+                            <label>Your Email Address</label>
                             <input type="email" id="payer_email" class="form-control" readonly style="background:#eee;">
                         </div>
-                        <div class="form-group"><label>Txn Ref No. (From Receipt)</label><input type="text" id="transaction_id" class="form-control" required></div>
-                        <button type="submit" class="btn-main">Submit Verification</button>
+                        <div class="form-group"><label>Transaction ID (TrxID)</label><input type="text" id="transaction_id" class="form-control" required placeholder="e.g., TXN123456789"></div>
+                        <button type="submit" class="btn-main">Submit for Verification</button>
                     </form>
                 </div>
             </div>
@@ -176,7 +184,7 @@
                     <h3><i class="fa-solid fa-upload"></i> Add Course</h3>
                     <form id="add-course-form">
                         <div class="form-group"><label>Course Title</label><input type="text" id="course_name" class="form-control" required></div>
-                        <div class="form-group"><label>Price (Pts)</label><input type="number" id="course_price" class="form-control" required></div>
+                        <div class="form-group"><label>Price (BDT)</label><input type="number" id="course_price" class="form-control" required></div>
                         <div class="form-group"><label>Short Description</label><textarea id="course_desc" class="form-control" required rows="2"></textarea></div>
                         <div style="background:#F9FAFB; padding:15px; border-radius:12px; margin-bottom:15px; border:1px solid #E5E7EB;">
                             <div class="form-group">
@@ -257,14 +265,14 @@
         
         const firebaseConfig = {
             apiKey: "AIzaSyBcS1r7bDJxv110OaT7-AD_4wpTxHpughY",
-  authDomain: "degetalstor.firebaseapp.com",
-  databaseURL: "https://degetalstor-default-rtdb.firebaseio.com",
-  projectId: "degetalstor",
-  storageBucket: "degetalstor.firebasestorage.app",
-  messagingSenderId: "849677244763",
-  appId: "1:849677244763:web:acd961d49e2b565ecfa27e",
-  measurementId: "G-2D0592NGCL"
-};
+            authDomain: "degetalstor.firebaseapp.com",
+            databaseURL: "https://degetalstor-default-rtdb.firebaseio.com",
+            projectId: "degetalstor",
+            storageBucket: "degetalstor.firebasestorage.app",
+            messagingSenderId: "849677244763",
+            appId: "1:849677244763:web:acd961d49e2b565ecfa27e",
+            measurementId: "G-2D0592NGCL"
+        };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
@@ -272,7 +280,7 @@
         window.currentUser = 'loading';
         window.isAdmin = false;
         window.coursesData = {};
-        window.cart = JSON.parse(localStorage.getItem('javagoat_cart')) || {};
+        window.cart = JSON.parse(localStorage.getItem('legentstore_cart')) || {};
         const ADMIN_EMAIL = 'admin@javagoat.com';
 
         async function compressImage(file) {
@@ -341,7 +349,7 @@
             const count = Object.keys(window.cart).length;
             document.getElementById('m-cart').innerText = count;
             document.getElementById('d-cart').innerText = count;
-            localStorage.setItem('javagoat_cart', JSON.stringify(window.cart));
+            localStorage.setItem('legentstore_cart', JSON.stringify(window.cart));
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -411,7 +419,7 @@
                         <div class="card-title">${course.name}</div>
                         <div class="card-desc">${course.description.substring(0, 60)}...</div>
                         <div class="card-footer">
-                            <span class="price">${course.price} Pts</span>
+                            <span class="price">${course.price} ৳</span>
                             <button class="btn-add" onclick="addToCart('${id}')"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
@@ -452,12 +460,12 @@
                     <img src="${item.data.image}" style="width:60px; height:60px; border-radius:8px; object-fit:cover; margin-right:15px;">
                     <div style="flex-grow:1;">
                         <div style="font-weight:700; font-size:14px;">${item.data.name}</div>
-                        <div style="color:var(--primary); font-weight:800;">${item.data.price} Pts</div>
+                        <div style="color:var(--primary); font-weight:800;">${item.data.price} ৳</div>
                     </div>
                     <a onclick="removeFromCart('${id}')" style="color:#EF4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></a>
                 </div>`;
             }
-            html += `<div style="text-align:right; font-size:20px; font-weight:800;">Total: ${total} Pts</div>`;
+            html += `<div style="text-align:right; font-size:20px; font-weight:800;">Total: ${total} ৳</div>`;
             if (window.currentUser && window.currentUser !== 'loading') {
                 html += `<a onclick="navigate('payment')" class="btn-main" style="display:block; text-align:center; margin-top:15px;">Proceed to Checkout</a>`;
             } else {
@@ -479,17 +487,6 @@
             let total = 0;
             for (const item of Object.values(window.cart)) total += parseFloat(item.data.price);
             document.getElementById('payment-total').innerText = total;
-
-            // Generate Dynamic QR Code embedding specified JSON data
-            const qrData = {
-                email: "khanshahidkhanshahid96@gmail.com",
-                name: "java goat",
-                amount: total,
-                txn_name: "Course Purchase - JavaGoat"
-            };
-            
-            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(JSON.stringify(qrData))}`;
-            document.getElementById('payment-qr').src = qrUrl;
         }
 
         function loadLibrary() {
@@ -602,7 +599,7 @@
             for (const [id, course] of Object.entries(window.coursesData)) {
                 html += `<tr>
                     <td><img src="${course.image}" class="admin-table-img"></td>
-                    <td style="font-weight:600;">${course.name}<div style="font-weight:normal; font-size:11px; color:var(--primary);">${course.price} Pts</div></td>
+                    <td style="font-weight:600;">${course.name}<div style="font-weight:normal; font-size:11px; color:var(--primary);">${course.price} ৳</div></td>
                     <td><button onclick="deleteCourse('${id}')" style="color:#EF4444; background:none; border:none; cursor:pointer; font-size:16px;"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>`;
             }
@@ -612,12 +609,12 @@
         function renderAdminOrders() {
             const table = document.getElementById('admin-orders-table');
             if(!window.transactionsData || Object.keys(window.transactionsData).length === 0) return table.innerHTML = "<tr><td>No orders yet.</td></tr>";
-            let html = '<tr><th>Customer</th><th>Txn ID</th><th>Status</th><th>Action</th></tr>';
+            let html = '<tr><th>Customer</th><th>TrxID</th><th>Status</th><th>Action</th></tr>';
             const txns = Object.entries(window.transactionsData).sort((a,b) => b[1].timestamp - a[1].timestamp);
             for (const [id, txn] of txns) {
                 const statusColor = txn.order_status === 'Confirmed' ? '#D1FAE5;color:#065F46' : '#FEF3C7;color:#92400E';
                 html += `<tr>
-                    <td>${txn.email}<div style="font-size:10px; color:#888;">${txn.total_amount} Pts</div></td>
+                    <td>${txn.email}<div style="font-size:10px; color:#888;">${txn.total_amount} ৳</div></td>
                     <td style="font-family:monospace;">${txn.transaction_id}</td>
                     <td><span style="background:${statusColor}; padding:4px 8px; border-radius:4px; font-size:11px; font-weight:700;">${txn.order_status}</span></td>
                     <td>${txn.order_status === 'Pending' ? `<button onclick="confirmOrder('${id}')" style="padding:6px 10px; background:var(--text-dark); color:white; border-radius:6px; border:none; cursor:pointer; font-size:11px; font-weight:bold;">Verify</button>` : `<i class='fa-solid fa-check-double' style='color:#10B981;'></i>`}</td>
@@ -648,21 +645,85 @@
 
         window.logout = async function() { await signOut(auth); navigate('login'); showFlash('Logged out.'); }
 
+        // ========== PAYMENT FORM WITH TELEGRAM APPROVE LINK ==========
         document.getElementById('payment-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const txnId = document.getElementById('transaction_id').value;
+            const txnId = document.getElementById('transaction_id').value.trim();
+            if (!txnId) {
+                showFlash('Transaction ID required', 'error');
+                return;
+            }
+
+            if (!window.currentUser || window.currentUser === 'loading') {
+                showFlash('You must be logged in to submit payment.', 'error');
+                return;
+            }
+
             const courseIds = Object.keys(window.cart);
-            let total = 0; courseIds.forEach(id => total += parseFloat(window.cart[id].data.price));
+            if (courseIds.length === 0) {
+                showFlash('Your cart is empty.', 'error');
+                return;
+            }
+
+            let total = 0;
+            const courseNames = [];
+            courseIds.forEach(id => {
+                total += parseFloat(window.cart[id].data.price);
+                courseNames.push(window.cart[id].data.name);
+            });
+
+            // Firebase-এ ডেটা পুশ
             try {
                 await push(ref(db, 'transactions'), {
-                    user_id: window.currentUser.uid, email: window.currentUser.email,
-                    transaction_id: txnId, courses_purchased: JSON.stringify(courseIds),
-                    total_amount: total, order_status: 'Pending', timestamp: Date.now()
+                    user_id: window.currentUser.uid,
+                    email: window.currentUser.email,
+                    transaction_id: txnId,
+                    courses_purchased: JSON.stringify(courseIds),
+                    total_amount: total,
+                    order_status: 'Pending',
+                    timestamp: Date.now()
                 });
-                window.cart = {}; updateCartUI();
-                showFlash('Verification submitted! Check My Library.');
-                navigate('library');
-            } catch (err) { showFlash('Error submitting payment.', 'error'); }
+            } catch (firebaseError) {
+                console.error('Firebase push error:', firebaseError);
+                showFlash('Failed to save transaction. Check console.', 'error');
+                return;
+            }
+
+            // Telegram-এ নোটিফিকেশন (Approve লিংক সহ)
+            try {
+                const botToken = '8415794523:AAHMtNhILvIijPuBYEdBcEZZ8GpiHB8sjew';
+                const chatId = '1371943974';
+                const courseList = courseNames.map(name => `📘 ${name}`).join('\n');
+                // Firebase Cloud Function URL (YOUR_PROJECT replace করুন)
+                const approveUrl = `https://us-central1-YOUR_PROJECT.cloudfunctions.net/approveOrder?txn_id=${encodeURIComponent(txnId)}`;
+                const message = `
+<b>🛒 New Payment Verification</b>
+<b>👤 Customer:</b> ${window.currentUser.email}
+<b>🔢 Transaction ID:</b> <code>${txnId}</code>
+<b>💰 Amount:</b> ${total} ৳
+<b>📚 Courses:</b>
+${courseList || 'N/A'}
+<a href="${approveUrl}">✅ Approve This Order</a>
+                `.trim();
+
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        parse_mode: 'HTML',
+                        disable_web_page_preview: false
+                    })
+                });
+            } catch (telegramError) {
+                console.warn('Telegram notification failed:', telegramError);
+            }
+
+            window.cart = {};
+            updateCartUI();
+            showFlash('Verification submitted! Check My Library.');
+            navigate('library');
         });
 
         updateCartUI(); 
